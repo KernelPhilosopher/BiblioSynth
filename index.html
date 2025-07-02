@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- Declaración HTML5 -->
+<html lang="es">
+  <!-- Documento en español -->
+
+  <head>
+    <!-- Metadatos de la página -->
+
+    <!-- Codificación UTF-8 para caracteres especiales -->
+    <meta charset="UTF-8" />
+
+    <!-- Configuración responsive para móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Descripción para SEO -->
+    <meta
+      name="description"
+      content="BiblioWave - Explora temas bíblicos, aprende con enseñanzas y lee la Biblia completamente gratis"
+    />
+
+    <!-- Título de la pestaña -->
+    <title>BiblioWave - Tu Portal Bíblico Digital</title>
+
+    <!-- Enlace al archivo CSS principal. -->
+    <!-- Estilos CSS externos -->
+    <link rel="stylesheet" href="Styles/main.css" />
+  </head>
+
+  <body>
+    <!-- Contenido visible de la página -->
+
+    <!-- Encabezado principal -->
+    <header class="header">
+      <!-- Navegación principal con accesibilidad -->
+      <nav
+        class="header__navigation"
+        role="navigation"
+        aria-label="Navegación principal del sitio"
+      >
+        <!-- Menú horizontal -->
+        <ul class="header__menu" role="menubar">
+          <!-- Enlace a Inicio -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item" role="none">
+            <a
+              href="#home"
+              class="header__link"
+              role="menuitem"
+              aria-current="page"
+              title="Ir a la página de inicio"
+            >
+              Inicio
+            </a>
+          </li>
+
+          <!-- Menú desplegable de Libros -->
+          <!-- Elemento de menú con submenú. El JavaScript controlará la visibilidad. -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item header__dropdown" role="none">
+            <a
+              href="#"
+              class="header__link header__dropdown-toggle"
+              role="menuitem"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="libros-submenu"
+              title="Explorar libros bíblicos"
+            >
+              Libros
+              <!-- Flecha indicadora -->
+              <span class="header__arrow" aria-hidden="true">▼</span>
+            </a>
+
+            <!-- Submenú -->
+            <ul class="header__submenu" role="menu" id="libros-submenu">
+              <!-- Opción: Antiguo Testamento -->
+              <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+              <li class="header__subitem" role="none">
+                <a
+                  href="/antiguo-testamento"
+                  class="header__sublink"
+                  role="menuitem"
+                  title="Explorar el Antiguo Testamento"
+                >
+                  Antiguo Testamento
+                </a>
+              </li>
+
+              <!-- Opción: Nuevo Testamento -->
+              <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+              <li class="header__subitem" role="none">
+                <a
+                  href="/nuevo-testamento"
+                  class="header__sublink"
+                  role="menuitem"
+                  title="Explorar el Nuevo Testamento"
+                >
+                  Nuevo Testamento
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Enlace a Alabanzas -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item" role="none">
+            <a
+              href="/alabanzas"
+              class="header__link"
+              role="menuitem"
+              title="Ver alabanzas y cánticos"
+            >
+              Alabanzas
+            </a>
+          </li>
+
+          <!-- Enlace a Enseñanzas -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item" role="none">
+            <a
+              href="/ensenanzas"
+              class="header__link"
+              role="menuitem"
+              title="Acceder a enseñanzas bíblicas"
+            >
+              Enseñanzas
+            </a>
+          </li>
+
+          <!-- Enlace Acerca De -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item" role="none">
+            <a
+              href="/acerca-de"
+              class="header__link"
+              role="menuitem"
+              title="Conocer más sobre nosotros"
+            >
+              Acerca De
+            </a>
+          </li>
+
+          <!-- Botón de donación destacado -->
+          <!-- Se añade role="none" al li para indicar que es un contenedor estructural -->
+          <li class="header__item" role="none">
+            <a
+              href="/donar"
+              class="header__link header__link--donate"
+              role="menuitem"
+              title="Realizar una donación para apoyar nuestro ministerio"
+            >
+              Donar ❤️
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main">
+      <!-- Sección de presentación principal -->
+      <section id="home" class="hero-section" aria-labelledby="hero-title">
+        <!-- Contenedor de elementos hero -->
+        <div class="hero-container">
+          <!-- Fondo decorativo -->
+          <div
+            class="hero-background"
+            role="img"
+            aria-label="Cielo con nubes - Fondo inspiracional"
+          ></div>
+
+          <!-- Contenido textual principal -->
+          <header class="hero-content">
+            <!-- Título principal del sitio -->
+            <h1 id="hero-title" class="hero-title">BiblioWave</h1>
+
+            <!-- Descripción del sitio -->
+            <p class="hero-subtitle">
+              Explora la Palabra de Dios de manera digital
+            </p>
+          </header>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+      <!-- Contenido del pie de página -->
+    </footer>
+
+    <!-- JavaScript para interactividad -->
+    <!-- Enlace al archivo JavaScript -->
+    <script src="Scripts/main.js"></script>
+  </body>
+</html>
