@@ -56,25 +56,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Verificar si el navegador soporta IntersectionObserver
     if ("IntersectionObserver" in window) {
-      // Crear un observador para detectar cuando las secciones entran en vista
+      // Crear un observador para detectar cuando las secciones entran/salen de vista
       const observer = new IntersectionObserver(
         (entries) => {
-          // Revisar cada sección que cambió su estado de visibilidad
-          entries.forEach((entry) => {
-            // Si la sección está visible en pantalla
-            if (entry.isIntersecting) {
-              // Quitar la clase activa de todos los enlaces
-              navLinks.forEach((link) => {
-                link.classList.remove("header__menu-link--active");
-                // Si el enlace corresponde a la sección visible, marcarlo como activo
-                if (
-                  link.getAttribute("href").substring(1) === entry.target.id
-                ) {
-                  link.classList.add("header__menu-link--active");
-                }
-              });
-            }
+          // En cada cambio de intersección, primero quitamos la clase activa de todos los enlaces
+          navLinks.forEach((link) => {
+            link.classList.remove("header__menu-link--active");
           });
+
+          // Luego, identificamos la sección que actualmente está en el centro de la vista
+          // y le asignamos la clase activa a su enlace correspondiente.
+          let activeSectionId = null;
+          // Iteramos las entradas para encontrar la que está intersectando
+          for (let i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+              activeSectionId = entries[i].target.id;
+              break; // Una vez que encontramos la primera sección intersectando, salimos
+            }
+          }
+
+          // Si encontramos una sección activa, agregamos la clase a su enlace
+          if (activeSectionId) {
+            const currentActiveLink = document.querySelector(
+              `.header__menu a[href="#${activeSectionId}"]`
+            );
+            if (currentActiveLink) {
+              currentActiveLink.classList.add("header__menu-link--active");
+            }
+          }
         },
         {
           // Configurar para activar cuando la sección esté en el centro de la pantalla

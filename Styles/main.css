@@ -18,7 +18,16 @@
   --font-headings: "Georgia", "Times New Roman", Times, serif; /* Fuente para títulos y encabezados */
 
   /* Transiciones y Sombras */
-  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave para efectos hover */
+  /* Se ha eliminado 'all' de la variable --transition-smooth
+     Ahora las transiciones se definirán específicamente en cada selector. */
+  --transition-duration: 0.3s; /* Duración estándar para transiciones */
+  --transition-timing-function: cubic-bezier(
+    0.25,
+    0.8,
+    0.25,
+    1
+  ); /* Función de temporización estándar */
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Sombra pequeña y sutil */
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Sombra mediana para elementos destacados */
@@ -125,9 +134,11 @@ body {
   color: var(--color-primary); /* Color azul para los enlaces */
   text-decoration: none; /* Elimina el subrayado */
   border-radius: 8px; /* Esquinas redondeadas */
-  transition: var(
-    --transition-smooth
-  ); /* Transición suave para efectos hover */
+  /* Transición específica para las propiedades que cambian */
+  transition: background-color var(--transition-duration)
+      var(--transition-timing-function),
+    color var(--transition-duration) var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
   position: relative; /* Necesario para elementos absolutos internos */
 }
 
@@ -139,21 +150,6 @@ body {
     --color-text-light
   ) !important; /* Texto blanco - !important sobreescribe otros estilos */
   box-shadow: var(--shadow-md); /* Sombra mediana para efecto de elevación */
-}
-
-.header__menu-link--donate {
-  background-color: var(
-    --color-accent
-  ); /* Fondo dorado para el botón de donación */
-  color: var(--color-text-light); /* Texto blanco */
-}
-
-.header__menu-link--donate:hover {
-  background-color: var(
-    --color-accent-hover
-  ); /* Fondo dorado más oscuro al pasar el cursor */
-  color: var(--color-text-light); /* Mantiene el texto blanco */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño del botón */
 }
 
 /* Dropdown de Libros */
@@ -190,7 +186,8 @@ body {
   border: 1px solid var(--color-border); /* Borde gris claro */
   opacity: 0; /* Inicialmente invisible */
   visibility: hidden; /* Inicialmente oculto */
-  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; /* Transiciones suaves */
+  /* Transiciones específicas para el submenú */
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
 }
 
 .header__menu-link[aria-expanded="true"] + .header__submenu {
@@ -205,7 +202,11 @@ body {
   color: var(--color-text); /* Color de texto normal */
   text-decoration: none; /* Sin subrayado */
   border-radius: 8px; /* Esquinas redondeadas */
-  transition: var(--transition-smooth); /* Transición suave */
+  /* Transición específica para las propiedades que cambian */
+  transition: background-color var(--transition-duration)
+      var(--transition-timing-function),
+    color var(--transition-duration) var(--transition-timing-function);
+  font-weight: 650;
 }
 
 .header__submenu-link:hover {
@@ -339,7 +340,10 @@ body {
   padding: 1.5rem; /* Espaciado interno */
   display: flex; /* Usa flexbox */
   flex-direction: column; /* Elementos en columna */
-  transition: var(--transition-smooth); /* Transición suave */
+  /* Transición específica para las propiedades que cambian */
+  transition: transform var(--transition-duration)
+      var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
 }
 
 .book-card:hover {
@@ -369,7 +373,10 @@ body {
   text-decoration: none; /* Sin subrayado */
   font-weight: 600; /* Peso de fuente semi-negrita */
   border-radius: 8px; /* Esquinas redondeadas */
-  transition: var(--transition-smooth); /* Transición suave */
+  /* Transición específica para las propiedades que cambian */
+  transition: background-color var(--transition-duration)
+      var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
 }
 
 .book-card__link:hover {
@@ -426,20 +433,15 @@ body {
   overflow: hidden; /* Oculta el desbordamiento */
   display: flex; /* Usa flexbox */
   flex-direction: column; /* Elementos en columna */
-  transition: var(--transition-smooth); /* Transición suave */
+  /* Transición específica para las propiedades que cambian */
+  transition: transform var(--transition-duration)
+      var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
 }
 
 .card:hover {
   transform: translateY(-8px); /* Eleva la tarjeta más que las book-cards */
   box-shadow: var(--shadow-lg); /* Sombra grande */
-}
-
-.card__content {
-  /* Contenedor para el contenido */
-  padding: 1.5rem; /* Espaciado interno */
-  display: flex; /* Usa flexbox */
-  flex-direction: column; /* Elementos en columna */
-  flex-grow: 1; /* Ocupa el espacio disponible */
 }
 
 .card__title {
@@ -467,7 +469,10 @@ body {
   text-decoration: none; /* Sin subrayado */
   font-weight: 600; /* Peso de fuente semi-negrita */
   border-radius: 8px; /* Esquinas redondeadas */
-  transition: var(--transition-smooth); /* Transición suave */
+  /* Transición específica para las propiedades que cambian */
+  transition: background-color var(--transition-duration)
+      var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
 }
 
 .card__link:hover {
