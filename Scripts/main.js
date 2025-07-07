@@ -1,60 +1,205 @@
-// Este código se ejecuta cuando toda la página web ha terminado de cargar
-document.addEventListener("DOMContentLoaded", function () {
-  // Buscar y guardar referencias a los elementos HTML que necesitamos:
-  // - El botón que abre/cierra el menú desplegable (tiene la clase "header__dropdown-toggle")
-  const dropdownToggle = document.querySelector(".header__dropdown-toggle");
+// Esperar a que la página se cargue completamente antes de ejecutar el código
+document.addEventListener("DOMContentLoaded", () => {
+  /**
+   * MÓDULO 1: GESTIÓN DEL MENÚ DE NAVEGACIÓN
+   * Controla la apertura/cierre del submenú y el resaltado de la sección activa.
+   */
+  const setupNavigation = () => {
+    // Buscar el botón que abre/cierra el menú desplegable
+    const dropdownToggle = document.querySelector(
+      '.header__menu-link[aria-haspopup="true"]'
+    );
+    // Buscar el elemento del submenú de libros
+    const submenu = document.getElementById("submenu-books");
 
-  // - El menú desplegable que se muestra/oculta (tiene el ID "libros-submenu")
-  const submenu = document.getElementById("libros-submenu");
+    // ---- Funcionalidad del menú desplegable ----
+    // Verificar que tanto el botón como el submenú existen en la página
+    if (dropdownToggle && submenu) {
+      // Agregar evento de clic al botón del menú desplegable
+      dropdownToggle.addEventListener("click", (e) => {
+        // Prevenir el comportamiento por defecto del enlace
+        e.preventDefault();
+        // Verificar si el menú está actualmente expandido
+        const isExpanded =
+          dropdownToggle.getAttribute("aria-expanded") === "true";
+        // Cambiar el estado del menú (abrir si está cerrado, cerrar si está abierto)
+        dropdownToggle.setAttribute("aria-expanded", !isExpanded);
+      });
 
-  // Verificar que ambos elementos existen en la página antes de continuar
-  if (dropdownToggle && submenu) {
-    // FUNCIONALIDAD 1: Controlar el clic en el botón del menú desplegable
-    dropdownToggle.addEventListener("click", function (event) {
-      // Evitar que el navegador navegue a otra página (porque el enlace tiene href="#")
-      event.preventDefault();
+      // Agregar evento para cerrar el menú cuando se hace clic fuera de él
+      document.addEventListener("click", (e) => {
+        // Si el clic no fue en el botón ni en el submenú, cerrar el menú
+        if (!dropdownToggle.contains(e.target) && !submenu.contains(e.target)) {
+          dropdownToggle.setAttribute("aria-expanded", "false");
+        }
+      });
 
-      // Verificar el estado actual del menú:
-      // - Si "aria-expanded" es "true", significa que el menú está abierto
-      // - Si es "false" (o no existe), significa que el menú está cerrado
-      const isExpanded = this.getAttribute("aria-expanded") === "true";
+      // Agregar evento para cerrar el menú con la tecla Escape
+      document.addEventListener("keydown", (e) => {
+        // Si se presiona Escape y el menú está abierto
+        if (
+          e.key === "Escape" &&
+          dropdownToggle.getAttribute("aria-expanded") === "true"
+        ) {
+          // Cerrar el menú y devolver el foco al botón
+          dropdownToggle.setAttribute("aria-expanded", "false");
+          dropdownToggle.focus();
+        }
+      });
+    }
 
-      // Cambiar el estado del menú al opuesto:
-      // - Si estaba abierto (true), lo cerramos (false)
-      // - Si estaba cerrado (false), lo abrimos (true)
-      this.setAttribute("aria-expanded", !isExpanded);
-    });
+    // ---- Funcionalidad de resaltado de sección activa con IntersectionObserver ----
+    // Buscar todas las secciones de la página que tienen un ID
+    const sections = document.querySelectorAll("main section[id]");
+    // Buscar todos los enlaces de navegación que apuntan a secciones internas
+    const navLinks = document.querySelectorAll('.header__menu a[href^="#"]');
 
-    // FUNCIONALIDAD 2: Cerrar el menú cuando el usuario hace clic fuera de él
-    document.addEventListener("click", function (event) {
-      // Verificar si el clic ocurrió:
-      // - FUERA del botón del menú Y
-      // - FUERA del propio menú desplegable
-      if (
-        !dropdownToggle.contains(event.target) &&
-        !submenu.contains(event.target)
-      ) {
-        // Si el clic fue fuera de ambos elementos, cerrar el menú
-        dropdownToggle.setAttribute("aria-expanded", "false");
+    // Verificar si el navegador soporta IntersectionObserver
+    if ("IntersectionObserver" in window) {
+      // Crear un observador para detectar cuando las secciones entran en vista
+      const observer = new IntersectionObserver(
+        (entries) => {
+          // Revisar cada sección que cambió su estado de visibilidad
+          entries.forEach((entry) => {
+            // Si la sección está visible en pantalla
+            if (entry.isIntersecting) {
+              // Quitar la clase activa de todos los enlaces
+              navLinks.forEach((link) => {
+                link.classList.remove("header__menu-link--active");
+                // Si el enlace corresponde a la sección visible, marcarlo como activo
+                if (
+                  link.getAttribute("href").substring(1) === entry.target.id
+                ) {
+                  link.classList.add("header__menu-link--active");
+                }
+              });
+            }
+          });
+        },
+        {
+          // Configurar para activar cuando la sección esté en el centro de la pantalla
+          rootMargin: "-50% 0px -50% 0px", // Activa cuando la sección está en el centro de la pantalla
+          threshold: 0, // Activar tan pronto como cualquier parte de la sección sea visible
+        }
+      );
+
+      // Observar todas las secciones encontradas
+      sections.forEach((section) => observer.observe(section));
+    }
+  };
+
+  /**
+   * MÓDULO 2: GENERADOR DE ENLACES DE BIBLE GATEWAY
+   * Asigna dinámicamente las URLs correctas a los enlaces de los libros bíblicos.
+   */
+  const setupBibleLinks = () => {
+    // Definir la versión de la Biblia a usar
+    const BIBLE_VERSION = "RVR1960";
+    // URL base del sitio Bible Gateway
+    const BASE_URL = "https://www.biblegateway.com/passage/?search=";
+
+    // Mapa de conversión de nombres de libros del español al formato requerido
+    const bookNameMap = {
+      Génesis: "Genesis",
+      Éxodo: "Exodo",
+      Levítico: "Levitico",
+      Números: "Numeros",
+      Deuteronomio: "Deuteronomio",
+      Josué: "Josue",
+      Jueces: "Jueces",
+      Rut: "Rut",
+      "1 Samuel": "1 Samuel",
+      "2 Samuel": "2 Samuel",
+      "1 Reyes": "1 Reyes",
+      "2 Reyes": "2 Reyes",
+      "1 Crónicas": "1 Cronicas",
+      "2 Crónicas": "2 Cronicas",
+      Esdras: "Esdras",
+      Nehemías: "Nehemias",
+      Ester: "Ester",
+      Job: "Job",
+      Salmos: "Salmos",
+      Proverbios: "Proverbios",
+      Eclesiastés: "Eclesiastes",
+      Cantares: "Cantares",
+      Isaías: "Isaias",
+      Jeremías: "Jeremias",
+      Lamentaciones: "Lamentaciones",
+      Ezequiel: "Ezequiel",
+      Daniel: "Daniel",
+      Oseas: "Oseas",
+      Joel: "Joel",
+      Amós: "Amos",
+      Abdías: "Abdias",
+      Jonás: "Jonas",
+      Miqueas: "Miqueas",
+      Nahúm: "Nahum",
+      Habacuc: "Habacuc",
+      Sofonías: "Sofonias",
+      Hageo: "Hageo",
+      Zacarías: "Zacarias",
+      Malaquías: "Malaquias",
+      Mateo: "Mateo",
+      Marcos: "Marcos",
+      Lucas: "Lucas",
+      Juan: "Juan",
+      Hechos: "Hechos",
+      Romanos: "Romanos",
+      "1 Corintios": "1 Corintios",
+      "2 Corintios": "2 Corintios",
+      Gálatas: "Galatas",
+      Efesios: "Efesios",
+      Filipenses: "Filipenses",
+      Colosenses: "Colosenses",
+      "1 Tesalonicenses": "1 Tesalonicenses",
+      "2 Tesalonicenses": "2 Tesalonicenses",
+      "1 Timoteo": "1 Timoteo",
+      "2 Timoteo": "2 Timoteo",
+      Tito: "Tito",
+      Filemón: "Filemon",
+      Hebreos: "Hebreos",
+      Santiago: "Santiago",
+      "1 Pedro": "1 Pedro",
+      "2 Pedro": "2 Pedro",
+      "1 Juan": "1 Juan",
+      "2 Juan": "2 Juan",
+      "3 Juan": "3 Juan",
+      Judas: "Judas",
+      Apocalipsis: "Apocalipsis",
+    };
+
+    // Función para generar la URL completa de Bible Gateway
+    const generateUrl = (bookName) => {
+      // Convertir el nombre del libro usando el mapa, o usar el nombre original si no existe
+      const normalizedBookName = bookNameMap[bookName] || bookName;
+      // Codificar el nombre del libro para uso en URL
+      const encodedBookName = encodeURIComponent(normalizedBookName);
+      // Crear y retornar la URL completa
+      return `${BASE_URL}${encodedBookName}&version=${BIBLE_VERSION}`;
+    };
+
+    // Buscar todos los enlaces de libros que tienen el atributo data-book
+    const bibleLinks = document.querySelectorAll(".book-card__link[data-book]");
+    // Procesar cada enlace de libro encontrado
+    bibleLinks.forEach((link) => {
+      // Obtener el nombre del libro desde el atributo data-book
+      const bookName = link.dataset.book;
+      // Verificar que el nombre del libro existe
+      if (bookName) {
+        // Asignar la URL generada al enlace
+        link.href = generateUrl(bookName);
+        // Configurar el enlace para abrir en una nueva pestaña
+        link.target = "_blank";
+        // Agregar atributos de seguridad para enlaces externos
+        link.rel = "noopener noreferrer nofollow";
+      } else {
+        // Mostrar error en consola si falta el atributo data-book
+        console.error("Enlace de libro sin atributo data-book:", link);
       }
     });
+  };
 
-    // FUNCIONALIDAD 3: Cerrar el menú cuando el usuario presiona la tecla Escape
-    document.addEventListener("keydown", function (event) {
-      // Verificar si:
-      // - La tecla presionada es "Escape" Y
-      // - El menú está actualmente abierto
-      if (
-        event.key === "Escape" &&
-        dropdownToggle.getAttribute("aria-expanded") === "true"
-      ) {
-        // Cerrar el menú
-        dropdownToggle.setAttribute("aria-expanded", "false");
-
-        // Devolver el foco (cursor) al botón del menú para mejorar la accesibilidad
-        // Esto ayuda a usuarios que navegan con teclado
-        dropdownToggle.focus();
-      }
-    });
-  }
+  // Inicializar todos los módulos cuando la página esté lista
+  setupNavigation();
+  setupBibleLinks();
 });

@@ -1,650 +1,592 @@
-/*
-ARCHIVO CSS PRINCIPAL - BIBLIOWAVE
-Este archivo contiene todos los estilos para el sitio web BiblioWave.
-Incluye configuración del header (menú de navegación) y la sección hero principal.
-*/
-
-/* CONFIGURACIÓN DEL HEADER (MENÚ DE NAVEGACIÓN) (OJO!) */
-
-/*
-Variables CSS: Son como "cajas" donde guardamos valores que podemos reutilizar.
-Por ejemplo, en lugar de escribir "#1a1a2e" muchas veces, solo escribimos "var(--indigo-profundo)"
-*/
+/*------------------------------------*
+ * VARIABLES Y CONFIGURACIÓN GLOBAL
+ *------------------------------------*/
 :root {
-  /* PALETA DE COLORES DEL SITIO WEB */
-  --indigo-profundo: #1a1a2e; /* Color azul muy oscuro para textos principales */
-  --amatista-enigmatica: #4a2c68; /* Color morado para elementos destacados */
-  --verde-esmeralda: #2c5f68; /* Color verde azulado para bordes y hover */
-  --blanco-etereo: #f5f5f5; /* Blanco cremoso para fondos */
-  --gris-plata: #e0e0e0; /* Gris claro para elementos secundarios */
-  --oro-mistico: #d4af37; /* Color dorado para botones especiales */
+  /* Paleta de colores */
+  --color-primary: #191970; /* Azul Profundo/Medianoche - color principal del sitio */
+  --color-secondary: #6a0dad; /* Púrpura Amatista - color secundario para acentos */
+  --color-background: #ffffff; /* Blanco Puro - fondo principal de la página */
+  --color-background-alt: #f7f7f9; /* Gris muy claro para secciones alternativas */
+  --color-text: #333333; /* Gris oscuro para texto, mejor legibilidad */
+  --color-text-light: #ffffff; /* Texto blanco para fondos oscuros */
+  --color-accent: #daa520; /* Oro Suave - color de botones y elementos destacados */
+  --color-accent-hover: #c79a1e; /* Oro más oscuro para efecto hover en botones */
+  --color-border: #e0e0e0; /* Color gris claro para bordes */
 
-  /* ANIMACIONES Y TRANSICIONES OPTIMIZADAS */
-  /* Estas variables definen qué tan rápido cambian los elementos cuando interactuamos con ellos */
+  /* Tipografía */
+  --font-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Fuente principal para el texto */
+  --font-headings: "Georgia", "Times New Roman", Times, serif; /* Fuente para títulos y encabezados */
 
-  /* Transición suave para enlaces y botones (0.3 segundos) */
-  --transition-smooth: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Transición rápida para elementos del submenú (0.2 segundos) */
-  --transition-fast: background-color 0.2s ease, color 0.2s ease,
-    padding-left 0.2s ease;
-
-  /* Transición específica para mostrar/ocultar menús desplegables */
-  --transition-dropdown: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* EFECTOS VISUALES REUTILIZABLES */
-  --shadow-light: 0 2px 8px rgba(26, 26, 46, 0.1); /* Sombra ligera */
-  --shadow-medium: 0 4px 12px rgba(26, 26, 46, 0.15); /* Sombra mediana */
-  --border-radius: 8px; /* Esquinas redondeadas normales */
-  --border-radius-small: 6px; /* Esquinas redondeadas pequeñas */
+  /* Transiciones y Sombras */
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave para efectos hover */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Sombra pequeña y sutil */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Sombra mediana para elementos destacados */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Sombra grande para efectos hover */
+  --border-radius: 12px; /* Radio de esquinas redondeadas estándar */
 }
 
-/*
-RESET BÁSICO: Esto hace que todos los elementos se comporten de manera consistente
-box-sizing: border-box significa que el padding y border se incluyen en el tamaño total
-*/
-* {
-  box-sizing: border-box;
+/* Reset básico y configuración del box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Incluye padding y border en el tamaño total del elemento */
+  margin: 0; /* Elimina márgenes por defecto */
+  padding: 0; /* Elimina padding por defecto */
 }
 
-/*
-CONFIGURACIÓN BÁSICA DEL CUERPO DE LA PÁGINA
-Aquí definimos la fuente, colores y espaciado básico para toda la página
-*/
+/* Configuración del HTML y Body para un desplazamiento suave y mejor renderizado */
+html {
+  scroll-behavior: smooth; /* Desplazamiento suave al hacer clic en enlaces ancla */
+  scroll-padding-top: 80px; /* Ajuste para el header fijo - evita que el contenido se oculte */
+}
+
 body {
-  margin: 0; /* Elimina espacios por defecto del navegador */
-  padding: 0; /* Elimina relleno por defecto */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Fuentes del sistema */
-  line-height: 1.6; /* Espaciado entre líneas de texto */
-  color: var(--indigo-profundo); /* Color del texto principal */
-  background-color: var(--blanco-etereo); /* Color de fondo de la página */
+  font-family: var(
+    --font-primary
+  ); /* Aplica la fuente principal a todo el documento */
+  line-height: 1.7; /* Espaciado entre líneas para mejor legibilidad */
+  color: var(--color-text); /* Color de texto por defecto */
+  background-color: var(--color-background); /* Color de fondo por defecto */
+  -webkit-font-smoothing: antialiased; /* Suaviza la fuente en navegadores WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Suaviza la fuente en Firefox en macOS */
 }
 
-/*
-CONTENEDOR PRINCIPAL DEL HEADER
-position: sticky hace que el menú se quede fijo en la parte superior al hacer scroll
-z-index: 100 asegura que esté por encima de otros elementos
-*/
+/* Estilos para títulos y secciones */
+.section-title {
+  font-family: var(--font-headings); /* Usa la fuente para títulos */
+  font-size: clamp(
+    2rem,
+    5vw,
+    2.75rem
+  ); /* Tamaño responsivo: mínimo 2rem, máximo 2.75rem */
+  color: var(--color-primary); /* Color azul para títulos principales */
+  text-align: center; /* Centra el texto horizontalmente */
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+}
+
+.section-subtitle {
+  font-size: clamp(
+    1rem,
+    2.5vw,
+    1.15rem
+  ); /* Tamaño responsivo para subtítulos */
+  text-align: center; /* Centra el texto */
+  max-width: 600px; /* Limita el ancho máximo para mejor legibilidad */
+  margin: 0 auto 3rem auto; /* Centra horizontalmente y añade margen inferior */
+  color: #666; /* Color gris para subtítulos */
+}
+
+.section-header {
+  margin-bottom: 3rem; /* Espaciado inferior para separar del contenido */
+}
+
+/*------------------------------------*
+ * HEADER
+ *------------------------------------*/
 .header {
-  position: sticky; /* Se mantiene fijo al hacer scroll */
-  top: 0; /* Pegado a la parte superior */
-  z-index: 100; /* Nivel de apilamiento alto */
-  background: rgba(245, 245, 245, 0.95); /* Fondo semi-transparente */
+  position: sticky; /* Se mantiene fijo en la parte superior al hacer scroll */
+  top: 0; /* Posición en la parte superior */
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.85
+  ); /* Fondo blanco semi-transparente */
   backdrop-filter: blur(10px); /* Efecto de desenfoque del fondo */
   -webkit-backdrop-filter: blur(10px); /* Compatibilidad con Safari */
-  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animación suave */
+  box-shadow: var(--shadow-sm); /* Sombra sutil */
+  transition: background-color 0.3s ease; /* Transición suave del color de fondo */
 }
 
-/*
-BARRA DE NAVEGACIÓN DENTRO DEL HEADER
-Contiene el menú principal con gradiente y bordes decorativos
-*/
-.header__navigation {
-  /* Gradiente de fondo que va del blanco al gris */
-  background: linear-gradient(
-    135deg,
-    /* Dirección diagonal del gradiente */ var(--blanco-etereo) 0%,
-    /* Comienza en blanco */ var(--gris-plata) 100% /* Termina en gris */
-  );
-  padding: 0.75rem; /* Espaciado interno */
-  border-bottom: 2px solid var(--verde-esmeralda); /* Línea inferior verde */
-  box-shadow: var(--shadow-light); /* Sombra sutil */
-}
-
-/*
-LISTA DEL MENÚ PRINCIPAL
-display: flex organiza los elementos en una fila horizontal
-justify-content: center los centra horizontalmente
-*/
-.header__menu {
-  display: flex; /* Organiza elementos en fila */
+.header__nav {
+  display: flex; /* Distribuye los elementos en línea */
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
-  flex-wrap: wrap; /* Permite que se envuelvan en pantallas pequeñas */
-  gap: 1rem; /* Espacio entre elementos */
-  list-style: none; /* Elimina viñetas de la lista */
-  margin: 0; /* Sin margen */
-  padding: 0; /* Sin relleno */
+  padding: 0 1rem; /* Padding horizontal */
+  height: 70px; /* Altura fija del header */
 }
 
-/*
-ELEMENTO INDIVIDUAL DEL MENÚ
-position: relative permite que los elementos hijos se posicionen relativamente a este
-*/
-.header__item {
-  position: relative; /* Permite posicionamiento de elementos hijos */
-}
-
-/*
-ENLACES DEL MENÚ PRINCIPAL
-Estos son los botones/enlaces que aparecen en el menú superior
-*/
-.header__link {
-  display: block; /* Hace que ocupe todo el espacio disponible */
-  text-decoration: none; /* Quita el subrayado del enlace */
-  color: var(--indigo-profundo); /* Color del texto */
-  padding: 0.75rem 1.25rem; /* Espaciado interno (arriba/abajo izquierda/derecha) */
-  border-radius: var(--border-radius-small); /* Esquinas redondeadas */
-  font-weight: 600; /* Texto en negrita */
-  font-size: 0.95rem; /* Tamaño de la fuente */
-  transition: var(--transition-smooth); /* Animación suave al cambiar */
-  white-space: nowrap; /* Evita que el texto se parta en líneas */
-  position: relative; /* Permite efectos especiales */
-  overflow: hidden; /* Oculta contenido que se sale */
-}
-
-/*
-EFECTO BRILLANTE EN LOS ENLACES
-::before crea un elemento invisible que se muestra como efecto especial
-*/
-.header__link::before {
-  content: ""; /* Elemento vacío */
-  position: absolute; /* Posicionado sobre el enlace */
-  top: 0; /* Pegado arriba */
-  left: -100%; /* Comienza fuera de la vista (izquierda) */
-  width: 100%; /* Ancho completo */
-  height: 100%; /* Alto completo */
-  /* Gradiente brillante que se mueve */
-  background: linear-gradient(
-    90deg,
-    /* De izquierda a derecha */ transparent,
-    /* Comienza transparente */ rgba(212, 175, 55, 0.3),
-    /* Brillo dorado en el centro */ transparent /* Termina transparente */
-  );
-  transition: left 0.5s; /* Animación del movimiento */
-}
-
-/*
-ACTIVAR EL EFECTO BRILLANTE AL PASAR EL MOUSE
-:hover se activa cuando el usuario pasa el mouse por encima
-*/
-.header__link:hover::before {
-  left: 100%; /* Mueve el brillo de izquierda a derecha */
-}
-
-/*
-EFECTOS CUANDO EL USUARIO PASA EL MOUSE O ENFOCA UN ENLACE
-:hover = pasar el mouse encima
-:focus = seleccionar con teclado
-*/
-.header__link:hover,
-.header__link:focus {
-  background: var(--verde-esmeralda); /* Cambia el fondo a verde */
-  color: var(--blanco-etereo); /* Cambia el texto a blanco */
-  transform: translateY(-2px); /* Mueve el elemento 2px hacia arriba */
-  box-shadow: var(--shadow-medium); /* Añade sombra */
-}
-
-/*
-ESTILO ESPECIAL PARA EL BOTÓN DE DONACIÓN
-Este botón tiene un diseño dorado distintivo
-*/
-.header__link--donate {
-  /* Gradiente dorado */
-  background: linear-gradient(135deg, var(--oro-mistico), #ffd700);
-  color: var(--indigo-profundo); /* Texto oscuro sobre fondo dorado */
-  font-weight: 700; /* Texto extra negrita */
-}
-
-/*
-EFECTO HOVER ESPECIAL PARA EL BOTÓN DE DONACIÓN
-Cambia el gradiente y añade un efecto de escala
-*/
-.header__link--donate:hover {
-  background: linear-gradient(
-    135deg,
-    #ffd700,
-    var(--oro-mistico)
-  ); /* Gradiente invertido */
-  transform: translateY(-2px) scale(1.05); /* Mueve arriba y agranda ligeramente */
-}
-
-/*
-ESTILO PARA LA PÁGINA ACTUAL
-aria-current="page" indica en qué página estamos actualmente
-*/
-.header__link[aria-current="page"] {
-  background: var(--amatista-enigmatica); /* Fondo morado */
-  color: var(--blanco-etereo); /* Texto blanco */
-}
-
-/*
-MENÚ DESPLEGABLE (DROPDOWN)
-position: relative permite que el submenú se posicione correctamente
-*/
-.header__dropdown {
-  position: relative; /* Base para el submenú */
-}
-
-/*
-BOTÓN QUE ACTIVA EL MENÚ DESPLEGABLE
-display: flex organiza el texto y la flecha en línea
-*/
-.header__dropdown-toggle {
-  display: flex; /* Organiza contenido en fila */
+.header__menu {
+  display: flex; /* Distribuye los elementos del menú en línea */
   align-items: center; /* Centra verticalmente */
-  gap: 0.5rem; /* Espacio entre texto y flecha */
-  /* Hereda todos los estilos de .header__link */
+  list-style: none; /* Elimina las viñetas de la lista */
+  gap: 0.5rem; /* Espaciado entre elementos del menú */
 }
 
-/*
-FLECHA DEL MENÚ DESPLEGABLE
-La flecha que indica que hay un submenú
-*/
-.header__arrow {
-  transition: transform 0.3s ease; /* rotación */
-  font-size: 0.8rem; /* Tamaño más pequeño que el texto */
+.header__menu-link {
+  display: block; /* Hace que el enlace ocupe todo el área clickeable */
+  padding: 0.75rem 1rem; /* Espaciado interno del enlace */
+  font-weight: 600; /* Peso de fuente semi-negrita */
+  font-size: 0.95rem; /* Tamaño de fuente ligeramente menor */
+  color: var(--color-primary); /* Color azul para los enlaces */
+  text-decoration: none; /* Elimina el subrayado */
+  border-radius: 8px; /* Esquinas redondeadas */
+  transition: var(
+    --transition-smooth
+  ); /* Transición suave para efectos hover */
+  position: relative; /* Necesario para elementos absolutos internos */
 }
 
-/*
-ROTAR LA FLECHA CUANDO EL MENÚ ESTÁ ABIERTO
-aria-expanded="true" indica que el menú está desplegado
-*/
-.header__dropdown-toggle[aria-expanded="true"] .header__arrow {
-  transform: rotate(180deg); /* Rota la flecha 180 grados */
+/* Estado activo del link de navegación */
+.header__menu-link--active,
+.header__menu-link:hover {
+  background-color: var(--color-primary); /* Fondo azul al pasar el cursor */
+  color: var(
+    --color-text-light
+  ) !important; /* Texto blanco - !important sobreescribe otros estilos */
+  box-shadow: var(--shadow-md); /* Sombra mediana para efecto de elevación */
 }
 
-/*
-SUBMENÚ DESPLEGABLE
-Este es el menú que aparece cuando haces clic en un elemento con flecha
-*/
+.header__menu-link--donate {
+  background-color: var(
+    --color-accent
+  ); /* Fondo dorado para el botón de donación */
+  color: var(--color-text-light); /* Texto blanco */
+}
+
+.header__menu-link--donate:hover {
+  background-color: var(
+    --color-accent-hover
+  ); /* Fondo dorado más oscuro al pasar el cursor */
+  color: var(--color-text-light); /* Mantiene el texto blanco */
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño del botón */
+}
+
+/* Dropdown de Libros */
+.header__menu-item--dropdown {
+  position: relative; /* Necesario para posicionar el dropdown */
+}
+
+.header__dropdown-arrow {
+  font-size: 0.7rem; /* Tamaño pequeño para la flecha */
+  margin-left: 0.3rem; /* Separación a la izquierda de la flecha */
+  transition: transform 0.2s ease; /* Transición suave para la rotación */
+}
+
+.header__menu-link[aria-expanded="true"] .header__dropdown-arrow {
+  transform: rotate(
+    180deg
+  ); /* Rota la flecha cuando el dropdown está abierto */
+}
+
 .header__submenu {
-  position: absolute; /* Se posiciona sobre otros elementos */
-  top: calc(100% + 0.5rem); /* Aparece debajo del botón principal */
-  left: 50%; /* Centrado horizontalmente */
-  background: var(--blanco-etereo); /* Fondo blanco */
-  border: 2px solid var(--verde-esmeralda); /* Borde verde */
+  position: absolute; /* Posición absoluta respecto al elemento padre */
+  top: calc(
+    100% + 10px
+  ); /* Se posiciona debajo del elemento padre con 10px de separación */
+  left: 50%; /* Se centra horizontalmente */
+  transform: translateX(-50%); /* Ajusta la posición para centrar exactamente */
+  background-color: var(--color-background); /* Fondo blanco */
   border-radius: var(--border-radius); /* Esquinas redondeadas */
-  box-shadow: var(--shadow-medium); /* Sombra para profundidad */
-  list-style: none; /* Sin viñetas */
-  margin: 0; /* Sin margen */
-  padding: 0.5rem 0; /* Relleno vertical */
-  min-width: 200px; /* Ancho mínimo */
-  z-index: 200; /* Por encima de otros elementos */
-
-  /* Estado inicial: invisible */
-  opacity: 0; /* Completamente transparente */
-  visibility: hidden; /* Oculto para lectores de pantalla */
-  transform: translateX(-50%) translateY(-10px); /* Centrado y ligeramente arriba */
-  transition: var(--transition-dropdown); /* Animación de aparición */
+  box-shadow: var(--shadow-lg); /* Sombra grande para destacar */
+  list-style: none; /* Elimina las viñetas */
+  min-width: 200px; /* Ancho mínimo del dropdown */
+  z-index: 1001; /* Asegura que esté por encima del header */
+  padding: 0.5rem; /* Espaciado interno */
+  border: 1px solid var(--color-border); /* Borde gris claro */
+  opacity: 0; /* Inicialmente invisible */
+  visibility: hidden; /* Inicialmente oculto */
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; /* Transiciones suaves */
 }
 
-/*
-MOSTRAR EL SUBMENÚ CUANDO ESTÁ ACTIVADO
-Se muestra cuando el botón principal tiene aria-expanded="true"
-*/
-.header__dropdown-toggle[aria-expanded="true"] + .header__submenu {
-  opacity: 1; /* Completamente visible */
-  visibility: visible; /* Visible para lectores de pantalla */
-  transform: translateX(-50%) translateY(0); /* Posición final */
+.header__menu-link[aria-expanded="true"] + .header__submenu {
+  opacity: 1; /* Hace visible el dropdown */
+  visibility: visible; /* Hace el dropdown accesible */
+  transform: translateX(-50%) translateY(-5px); /* Ajusta la posición con un ligero desplazamiento */
 }
 
-/*
-ENLACES DENTRO DEL SUBMENÚ
-Estilos para los elementos individuales del menú desplegable
-*/
-.header__sublink {
-  display: block; /* Ocupa todo el ancho disponible */
+.header__submenu-link {
+  display: block; /* Hace que el enlace ocupe toda la línea */
+  padding: 0.75rem 1rem; /* Espaciado interno */
+  color: var(--color-text); /* Color de texto normal */
   text-decoration: none; /* Sin subrayado */
-  color: var(--indigo-profundo); /* Color del texto */
-  padding: 0.75rem 1.25rem; /* Espaciado interno */
-  transition: var(--transition-fast); /* Animación rápida */
-  font-weight: 500; /* Peso de fuente medio */
+  border-radius: 8px; /* Esquinas redondeadas */
+  transition: var(--transition-smooth); /* Transición suave */
 }
 
-/*
-EFECTOS HOVER EN LOS ENLACES DEL SUBMENÚ
-Cambian de color y se desplazan ligeramente a la derecha
-*/
-.header__sublink:hover,
-.header__sublink:focus {
-  background: var(--gris-plata); /* Fondo gris claro */
-  color: var(--amatista-enigmatica); /* Texto morado */
-  padding-left: 1.75rem; /* Más espaciado izquierdo (efecto de desplazamiento) */
+.header__submenu-link:hover {
+  background-color: var(
+    --color-background-alt
+  ); /* Fondo gris claro al pasar el cursor */
+  color: var(--color-secondary); /* Color púrpura al pasar el cursor */
 }
 
-/*
-DISEÑO RESPONSIVO PARA PANTALLAS PEQUEÑAS
-@media permite aplicar estilos solo en ciertos tamaños de pantalla
-*/
-@media (max-width: 768px) {
-  /* Reducir espaciado en tablets y móviles */
-  .header__navigation {
-    padding: 0.5rem; /* Menos relleno */
-  }
-
-  .header__menu {
-    gap: 0.5rem; /* Menos espacio entre elementos */
-  }
-
-  /* Hacer los enlaces más pequeños en pantallas pequeñas */
-  .header__link,
-  .header__dropdown-toggle {
-    padding: 0.5rem 1rem; /* Menos relleno */
-    font-size: 0.9rem; /* Fuente más pequeña */
-  }
-}
-
-/*
-ACCESIBILIDAD: RESPETO POR LAS PREFERENCIAS DEL USUARIO
-prefers-reduced-motion detecta si el usuario ha desactivado las animaciones
-*/
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important; /* Animaciones casi instantáneas */
-    animation-iteration-count: 1 !important; /* Solo una vez */
-    transition-duration: 0.01ms !important; /* Transiciones casi instantáneas */
-    transition-delay: 0s !important; /* Sin retrasos */
-  }
-}
-
-/*
-MODO OSCURO: AJUSTES AUTOMÁTICOS PARA TEMA OSCURO
-prefers-color-scheme: dark detecta si el usuario prefiere tema oscuro
-*/
-@media (prefers-color-scheme: dark) {
-  :root {
-    --blanco-etereo: #1a1a1a; /* Fondo oscuro en lugar de blanco */
-    --gris-plata: #2a2a2a; /* Gris más oscuro */
-    --indigo-profundo: #e0e0e0; /* Texto claro en lugar de oscuro */
-  }
-}
-
-/*
-ESTADOS DE ENFOQUE PARA ACCESIBILIDAD
-focus-visible se activa cuando se navega con teclado
-*/
-*:focus-visible {
-  outline: 2px solid var(--oro-mistico); /* Contorno dorado visible */
-  outline-offset: 2px; /* Separación del elemento */
-}
-
-/*
-CONFIGURACIÓN PRINCIPAL (MAIN) (OJO!)
-*/
-
-/*SECCIÓN HERO - BIBLIOWAVE
-Esta es la sección principal que ve el usuario al entrar al sitio.
-Contiene el título grande y la imagen de fondo.
-*/
-
-/*
-CONTENEDOR BASE DE LA SECCIÓN HERO
-min-height: 100vh hace que ocupe toda la altura de la pantalla
-vh = viewport height (altura de la ventana del navegador)
-*/
-.hero-section {
-  padding: 1rem; /* Espaciado interno */
-  min-height: 100dvh; /* Altura mínima = altura completa de pantalla */
-  min-height: 100vh; /* Fallback */
-  display: flex; /* Usa flexbox para centrar contenido */
+/*------------------------------------*
+ * SECCIÓN HERO
+ *------------------------------------*/
+.hero {
+  position: relative; /* Necesario para posicionar el fondo */
+  display: flex; /* Distribuye el contenido de forma flexible */
   align-items: center; /* Centra verticalmente */
-  width: 100%; /* Ocupa todo el ancho disponible */
-}
-
-/*
-CONTENEDOR PRINCIPAL DEL HERO
-isolation: isolate crea un nuevo contexto de apilamiento para evitar problemas de z-index
-*/
-.hero-container {
-  position: relative; /* Permite posicionar elementos hijos */
-  width: 100%; /* Ancho completo */
-  margin: 0; /* Sin margen */
-  isolation: isolate; /* Crea nuevo contexto de apilamiento */
-}
-
-/*
-IMAGEN DE FONDO DEL HERO
-Combina un gradiente oscuro con una imagen de fondo
-*/
-.hero-background {
-  /* Gradiente superpuesto sobre la imagen para mejorar la legibilidad del texto */
-  background: linear-gradient(
-      135deg,
-      /* Gradiente diagonal */ rgba(0, 0, 0, 0.15) 0%,
-      /* Comienza con negro semi-transparente */ rgba(0, 0, 0, 0.05) 50%,
-      /* Menos opaco en el centro */ rgba(0, 0, 0, 0.15) 100%
-        /* Termina con negro semi-transparente */
-    ),
-    url("../Media/index-main-bg.jpg") no-repeat center center / cover; /* Imagen de fondo */
-
-  min-height: 95vh; /* Altura mínima del 95% de la pantalla */
-  border: 2.25px solid var(--blanco-etereo); /* Borde blanco */
-  border-radius: 12px; /* Esquinas muy redondeadas */
-  position: relative; /* Para posicionar el contenido interno */
-
-  /* OPTIMIZACIONES DE RENDIMIENTO */
-  will-change: transform; /* Indica al navegador que este elemento cambiará */
-  backface-visibility: hidden; /* Mejora el rendimiento en 3D */
-
-  /* Transición suave para efectos de hover */
-  transition: transform 0.3s ease;
-}
-
-/*
-EFECTO HOVER SUTIL EN LA IMAGEN DE FONDO
-Un ligero zoom cuando el usuario pasa el mouse
-*/
-.hero-background:hover {
-  transform: scale(1.002); /* Agranda ligeramente (0.2%) */
-}
-
-/*
-CONTENIDO PRINCIPAL DEL HERO (TÍTULO Y SUBTÍTULO)
-position: absolute permite posicionar exactamente donde queremos el texto
-*/
-.hero-content {
-  position: absolute; /* Posicionamiento absoluto */
-  top: 50%; /* 50% desde arriba */
-  left: 50%; /* 50% desde la izquierda */
-  transform: translate(-50%, -50%); /* Centra perfectamente el elemento */
+  justify-content: center; /* Centra horizontalmente */
+  min-height: 100vh; /* Altura mínima de toda la pantalla */
+  padding: 1rem; /* Espaciado interno */
+  color: var(--color-text-light); /* Texto blanco */
   text-align: center; /* Centra el texto */
-  color: var(--blanco-etereo); /* Color del texto (blanco) */
-  z-index: 1; /* Por encima de la imagen de fondo */
-  padding: 2rem; /* Espaciado interno */
-  max-width: min(100%, 600px); /* Ancho máximo responsivo */
-
-  /* MEJORAS DE LEGIBILIDAD EN MÓVILES */
-  -webkit-font-smoothing: antialiased; /* Suavizado de fuente en WebKit */
-  -moz-osx-font-smoothing: grayscale; /* Suavizado de fuente en Firefox */
+  overflow: hidden; /* Oculta el desbordamiento del fondo animado */
 }
 
-/*
-TÍTULO PRINCIPAL DEL HERO
-clamp() permite que el tamaño de fuente se ajuste automáticamente al tamaño de pantalla
-*/
-.hero-title {
-  font-size: clamp(
-    2.5rem,
-    6vw,
-    4.5rem
-  ); /* Tamaño responsivo: mín 2.5rem, máx 4.5rem */
-  font-weight: 700; /* Muy negrita */
-  margin: 0 0 1.25rem 0; /* Solo margen inferior */
-  /* Múltiples sombras para mejor legibilidad sobre la imagen */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
-  line-height: 1.1; /* Espaciado entre líneas ajustado */
-  letter-spacing: -0.02em; /* Espaciado entre letras más cerrado */
-
-  /* Animación de entrada desde abajo */
-  animation: fadeInUp 1s ease-out;
+.hero__background {
+  position: absolute; /* Posición absoluta respecto al contenedor hero */
+  top: 0; /* Posición en la parte superior */
+  left: 0; /* Posición en la parte izquierda */
+  width: 100%; /* Ocupa todo el ancho */
+  height: 100%; /* Ocupa toda la altura */
+  background: linear-gradient(rgba(25, 25, 112, 0.7), rgba(106, 13, 173, 0.5)),
+    url("../Media/index-main-bg.jpg") no-repeat center center/cover; /* Gradiente sobre imagen de fondo */
+  z-index: -1; /* Se coloca detrás del contenido */
+  animation: zoom-in 20s ease-in-out infinite alternate; /* Animación de zoom que se repite */
 }
 
-/*
-SUBTÍTULO DEL HERO
-Texto secundario debajo del título principal
-*/
-.hero-subtitle {
-  font-size: clamp(1.1rem, 2.8vw, 1.6rem); /* Tamaño responsivo más pequeño */
-  font-weight: 500; /* Peso medio */
-  margin: 0; /* Sin margen */
-  /* Sombra de texto para legibilidad */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8),
-    0 0 15px rgba(255, 255, 255, 0.05);
-  line-height: 1.5; /* Espaciado entre líneas */
-  opacity: 0.95; /* Ligeramente transparente */
-
-  /* Animación de entrada con retraso */
-  animation: fadeInUp 1s ease-out 0.3s both; /* both mantiene el estado inicial hasta que comience */
-}
-
-/*
-ANIMACIÓN DE ENTRADA DESDE ABAJO
-@keyframes define una animación personalizada
-*/
-@keyframes fadeInUp {
+@keyframes zoom-in {
   from {
-    opacity: 0; /* Comienza invisible */
-    transform: translateY(30px); /* Comienza 30px más abajo */
+    transform: scale(1); /* Tamaño normal al inicio */
   }
   to {
-    opacity: 1; /* Termina completamente visible */
-    transform: translateY(0); /* Termina en su posición normal */
+    transform: scale(1.1); /* Aumenta el tamaño al final */
   }
 }
 
-/*
-PUNTOS DE QUIEBRE RESPONSIVOS
-Diferentes estilos para diferentes tamaños de pantalla
-*/
+.hero__content {
+  max-width: 800px; /* Limita el ancho máximo del contenido */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Sombra del texto para mejor legibilidad */
+  animation: fade-in-up 1s ease-out; /* Animación de entrada del contenido */
+}
 
-/*
-TABLET HORIZONTAL Y DESKTOP PEQUEÑO (hasta 1024px)
-*/
-@media (max-width: 1024px) {
-  .hero-container {
-    max-width: 100%; /* Ancho completo */
-    margin: 0 auto; /* Centrado */
+.hero__title {
+  font-size: clamp(
+    3rem,
+    8vw,
+    5.5rem
+  ); /* Tamaño responsivo muy grande para el título principal */
+  font-weight: 700; /* Peso de fuente muy negrita */
+  line-height: 1.1; /* Espaciado entre líneas ajustado */
+  color: var(--color-text-light); /* Color blanco */
+  margin-bottom: 1rem; /* Espaciado inferior */
+}
+
+.hero__subtitle {
+  font-size: clamp(
+    1.2rem,
+    4vw,
+    1.75rem
+  ); /* Tamaño responsivo para el subtítulo */
+  font-weight: 500; /* Peso de fuente medio */
+  opacity: 0.9; /* Ligeramente transparente */
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0; /* Invisible al inicio */
+    transform: translateY(20px); /* Desplazado hacia abajo */
+  }
+  to {
+    opacity: 1; /* Completamente visible */
+    transform: translateY(0); /* Posición normal */
   }
 }
 
-/*
-TABLET VERTICAL (hasta 768px)
-*/
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 0rem; /* Sin padding externo */
-    min-height: 90vh; /* Altura reducida */
-  }
+/*------------------------------------*
+ * SECCIÓN LIBROS
+ *------------------------------------*/
+.books {
+  padding: 4rem 1rem; /* Espaciado interno amplio */
+  background-color: var(--color-background-alt); /* Fondo gris claro */
+}
 
-  .hero-background {
-    min-height: 85vh; /* Altura de fondo reducida */
-    border-radius: 8px; /* Esquinas menos redondeadas */
-    border-width: 2px; /* Borde más delgado */
-  }
+.books__container {
+  display: grid; /* Usa CSS Grid para la disposición */
+  grid-template-columns: 1fr; /* Una columna por defecto */
+  gap: 2rem; /* Espaciado entre elementos */
+  max-width: 1400px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra horizontalmente */
+}
 
-  .hero-content {
-    padding: 1.5rem; /* Menos padding */
-    max-width: 100%; /* Ancho completo */
-  }
+.books__testament {
+  background-color: var(--color-background); /* Fondo blanco */
+  border-radius: var(--border-radius); /* Esquinas redondeadas */
+  padding: 2rem; /* Espaciado interno */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
+}
 
-  .hero-title {
-    margin-bottom: 1rem; /* Menos margen inferior */
+.books__testament-title {
+  font-family: var(--font-headings); /* Fuente para títulos */
+  font-size: 1.75rem; /* Tamaño de fuente grande */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 2rem; /* Espaciado inferior */
+  padding-bottom: 0.5rem; /* Espaciado interno inferior */
+  border-bottom: 2px solid var(--color-border); /* Línea inferior */
+  color: var(--color-secondary); /* Color púrpura */
+}
+
+.books__list {
+  list-style: none; /* Elimina las viñetas */
+  display: grid; /* Usa CSS Grid */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr)
+  ); /* Columnas automáticas con ancho mínimo */
+  gap: 1rem; /* Espaciado entre tarjetas */
+}
+
+.book-card {
+  border: 1px solid var(--color-border); /* Borde gris claro */
+  border-radius: 8px; /* Esquinas ligeramente redondeadas */
+  padding: 1.5rem; /* Espaciado interno */
+  display: flex; /* Usa flexbox */
+  flex-direction: column; /* Elementos en columna */
+  transition: var(--transition-smooth); /* Transición suave */
+}
+
+.book-card:hover {
+  transform: translateY(-5px); /* Eleva la tarjeta al pasar el cursor */
+  box-shadow: var(--shadow-lg); /* Sombra grande para efecto de elevación */
+}
+
+.book-card__title {
+  font-size: 1.2rem; /* Tamaño de fuente mediano */
+  color: var(--color-primary); /* Color azul */
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+}
+
+.book-card__description {
+  font-size: 0.9rem; /* Tamaño de fuente pequeño */
+  color: #555; /* Color gris medio */
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  margin-bottom: 1rem; /* Espaciado inferior */
+}
+
+.book-card__link {
+  display: block; /* Ocupa toda la línea */
+  text-align: center; /* Centra el texto */
+  padding: 0.75rem; /* Espaciado interno */
+  background-color: var(--color-accent); /* Fondo dorado */
+  color: var(--color-text-light); /* Texto blanco */
+  text-decoration: none; /* Sin subrayado */
+  font-weight: 600; /* Peso de fuente semi-negrita */
+  border-radius: 8px; /* Esquinas redondeadas */
+  transition: var(--transition-smooth); /* Transición suave */
+}
+
+.book-card__link:hover {
+  background-color: var(--color-accent-hover); /* Fondo dorado más oscuro */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
+}
+
+.books__attribution {
+  text-align: center; /* Centra el texto */
+  margin-top: 3rem; /* Espaciado superior */
+  font-size: 0.9rem; /* Tamaño de fuente pequeño */
+  color: #777; /* Color gris claro */
+}
+
+.books__attribution a {
+  color: var(--color-secondary); /* Color púrpura para enlaces */
+  text-decoration: none; /* Sin subrayado */
+  font-weight: 600; /* Peso de fuente semi-negrita */
+}
+
+.books__attribution a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+}
+
+/*------------------------------------*
+ * COMPONENTE TARJETA REUTILIZABLE
+ *------------------------------------*/
+.praises,
+.sermons {
+  padding: 4rem 1rem; /* Espaciado interno amplio */
+}
+.sermons {
+  background-color: var(
+    --color-background-alt
+  ); /* Fondo gris claro para diferenciación */
+}
+
+.card-grid {
+  display: grid; /* Usa CSS Grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Columnas que se ajustan automáticamente */
+  gap: 2rem; /* Espaciado entre tarjetas */
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra horizontalmente */
+}
+
+.card {
+  padding: 1.5rem; /* Espaciado interno */
+  background-color: var(--color-background); /* Fondo blanco */
+  border-radius: var(--border-radius); /* Esquinas redondeadas */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
+  overflow: hidden; /* Oculta el desbordamiento */
+  display: flex; /* Usa flexbox */
+  flex-direction: column; /* Elementos en columna */
+  transition: var(--transition-smooth); /* Transición suave */
+}
+
+.card:hover {
+  transform: translateY(-8px); /* Eleva la tarjeta más que las book-cards */
+  box-shadow: var(--shadow-lg); /* Sombra grande */
+}
+
+.card__content {
+  /* Contenedor para el contenido */
+  padding: 1.5rem; /* Espaciado interno */
+  display: flex; /* Usa flexbox */
+  flex-direction: column; /* Elementos en columna */
+  flex-grow: 1; /* Ocupa el espacio disponible */
+}
+
+.card__title {
+  font-size: 1.25rem; /* Tamaño de fuente mediano-grande */
+  font-family: var(--font-headings); /* Fuente para títulos */
+  color: var(--color-primary); /* Color azul */
+  margin-bottom: 0.75rem; /* Espaciado inferior */
+}
+
+.card__description {
+  font-size: 0.95rem; /* Tamaño de fuente ligeramente menor */
+  color: #555; /* Color gris medio */
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  margin-bottom: 1.5rem; /* Espaciado inferior */
+}
+
+.card__link {
+  display: block; /* Ocupa toda la línea */
+  text-align: center; /* Centra el texto */
+  padding: 0.75rem; /* Espaciado interno */
+  margin: 1.5rem; /* Se aplica margen en lugar de padding al contenedor */
+  margin-top: auto; /* Empuja el botón hacia abajo */
+  background-color: var(--color-accent); /* Fondo dorado */
+  color: var(--color-text-light); /* Texto blanco */
+  text-decoration: none; /* Sin subrayado */
+  font-weight: 600; /* Peso de fuente semi-negrita */
+  border-radius: 8px; /* Esquinas redondeadas */
+  transition: var(--transition-smooth); /* Transición suave */
+}
+
+.card__link:hover {
+  background-color: var(--color-accent-hover); /* Fondo dorado más oscuro */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
+}
+
+/*------------------------------------*
+ * SECCIÓN "ACERCA DE"
+ *------------------------------------*/
+.about {
+  padding: 4rem 1rem; /* Espaciado interno amplio */
+  background-color: var(--color-primary); /* Fondo azul */
+  color: var(--color-text-light); /* Texto blanco */
+}
+
+.about__container {
+  display: grid; /* Usa CSS Grid */
+  grid-template-columns: 1fr; /* Una columna por defecto */
+  gap: 3rem; /* Espaciado entre elementos */
+  max-width: 1100px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente los elementos */
+}
+
+.about__content .section-title--light {
+  color: var(--color-text-light); /* Texto blanco para títulos */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.about__content p {
+  margin-bottom: 1rem; /* Espaciado inferior entre párrafos */
+  font-size: 1.05rem; /* Tamaño de fuente ligeramente mayor */
+  opacity: 0.9; /* Ligeramente transparente */
+}
+
+.about__image-container {
+  display: flex; /* Usa flexbox */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+}
+
+.about__image {
+  max-width: 100%; /* No excede el ancho del contenedor */
+  width: 350px; /* Ancho específico */
+  height: 350px; /* Altura específica */
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover; /* Recorta la imagen para mantener proporciones */
+  box-shadow: 0 0 30px rgba(218, 165, 32, 0.5); /* Sombra dorada alrededor */
+  border: 5px solid var(--color-accent); /* Borde dorado */
+}
+
+/*------------------------------------*
+ * FOOTER
+ *------------------------------------*/
+.footer {
+  padding: 2rem 1rem; /* Espaciado interno */
+  background-color: #111; /* Fondo negro */
+  color: #aaa; /* Texto gris claro */
+  text-align: center; /* Centra el texto */
+  font-size: 0.9rem; /* Tamaño de fuente pequeño */
+}
+
+.footer__copyright {
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+}
+
+.footer__credits {
+  color: #777; /* Color gris más claro */
+}
+
+/*------------------------------------*
+ * MEDIA QUERIES PARA RESPONSIVIDAD
+ *------------------------------------*/
+@media (min-width: 768px) {
+  .books__container {
+    grid-template-columns: 1fr 1fr; /* Dos columnas en pantallas medianas */
+  }
+  .about__container {
+    grid-template-columns: 2fr 1fr; /* Dos columnas: contenido más ancho, imagen más estrecha */
   }
 }
 
-/*
-MÓVIL HORIZONTAL (hasta 640px)
-*/
-@media (max-width: 640px) {
-  .hero-background {
-    min-height: 75vh; /* Altura aún más reducida */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: 60px; /* Reduce el padding superior para pantallas pequeñas */
+  }
+  .header__nav {
+    height: 60px; /* Reduce la altura del header en móviles */
+  }
+  .header__menu {
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas */
+    justify-content: center; /* Centra los elementos */
+    gap: 0.2rem; /* Reduce el espaciado entre elementos */
+  }
+  .header__menu-link {
+    padding: 0.5rem 0.75rem; /* Reduce el padding en móviles */
+    font-size: 0.9rem; /* Reduce el tamaño de fuente */
   }
 }
 
-/*
-MÓVIL VERTICAL (hasta 480px)
-*/
-@media (max-width: 480px) {
-  .hero-section {
-    padding: 0.5rem; /* Padding mínimo */
-    min-height: 80vh; /* Altura ajustada */
-  }
-
-  .hero-background {
-    min-height: 70vh; /* Altura de fondo reducida */
-    border-radius: 6px; /* Esquinas menos redondeadas */
-  }
-
-  .hero-content {
-    padding: 1rem; /* Padding reducido */
-  }
-
-  .hero-title {
-    margin-bottom: 0.75rem; /* Margen inferior menor */
-  }
-}
-
-/*
-DISPOSITIVOS MUY PEQUEÑOS (hasta 360px)
-Para teléfonos muy pequeños o antiguos
-*/
-@media (max-width: 360px) {
-  .hero-background {
-    min-height: 65vh; /* Altura mínima para pantallas muy pequeñas */
-  }
-}
-
-/* MEJORAS PARA ACCESIBILIDAD Y RENDIMIENTO */
-
-/*
-RESPETO POR PREFERENCIAS DE ACCESIBILIDAD
-Algunos usuarios prefieren reducir las animaciones por temas de salud o preferencia
-*/
+/* Accesibilidad: Respeto por las preferencias del usuario */
 @media (prefers-reduced-motion: reduce) {
-  .hero-background {
-    transition: none; /* Sin transiciones */
+  html {
+    scroll-behavior: auto; /* Desactiva el scroll suave si el usuario prefiere menos movimiento */
   }
-
-  .hero-background:hover {
-    transform: none; /* Sin efectos de hover */
-  }
-
-  .hero-title,
-  .hero-subtitle {
-    animation: none; /* Sin animaciones de entrada */
-  }
-}
-
-/*
-MEJORAS PARA MODO OSCURO
-Ajustes cuando el usuario prefiere tema oscuro
-*/
-@media (prefers-color-scheme: dark) {
-  .hero-background {
-    border-color: rgba(255, 255, 255, 0.2); /* Borde más sutil en modo oscuro */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important; /* Reduce drásticamente las animaciones */
+    animation-iteration-count: 1 !important; /* Ejecuta las animaciones solo una vez */
+    transition-duration: 0.01ms !important; /* Reduce drásticamente las transiciones */
+    scroll-behavior: auto !important; /* Desactiva el scroll suave */
   }
 }
 
-/*
-OPTIMIZACIÓN PARA IMPRESIÓN
-Estilos cuando el usuario imprime la página
-*/
-@media print {
-  .hero-section {
-    min-height: auto; /* Altura automática para impresión */
-    padding: 1rem; /* Padding estándar */
-  }
-
-  .hero-background {
-    min-height: 300px; /* Altura fija para impresión */
-    background-image: none !important; /* Sin imagen de fondo (ahorra tinta) */
-    background-color: #f5f5f5; /* Fondo gris claro */
-  }
-
-  .hero-content {
-    position: static; /* Posicionamiento normal */
-    transform: none; /* Sin transformaciones */
-    color: #000; /* Texto negro para impresión */
-  }
-
-  .hero-title,
-  .hero-subtitle {
-    text-shadow: none; /* Sin sombras de texto */
-  }
+/* Estilos de enfoque para accesibilidad */
+*:focus-visible {
+  outline: 3px solid var(--color-secondary); /* Contorno púrpura cuando se enfoca con teclado */
+  outline-offset: 3px; /* Separación del contorno */
+  border-radius: 4px; /* Esquinas redondeadas del contorno */
 }
