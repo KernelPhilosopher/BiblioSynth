@@ -1,4 +1,4 @@
-# 🌊 BiblioWave
+# ✝️ BiblioSynth
 
 > **Un puente digital hacia la sabiduría de las Escrituras**
 
@@ -6,7 +6,7 @@
 
 ## 📖 Descripción
 
-BiblioWave es un proyecto web nacido del deseo de acercar la sabiduría de la Palabra de Dios a todos, utilizando la tecnología como puente. Este sitio ofrece un espacio digital estético, intuitivo y gratuito donde puedes explorar las Escrituras, encontrar alimento espiritual a través de sermones y elevar tu corazón con alabanzas.
+BiblioSynth es un proyecto web nacido del deseo de acercar la sabiduría de la Palabra de Dios a todos, utilizando la tecnología como puente. Este sitio ofrece un espacio digital estético, intuitivo y gratuito donde puedes explorar las Escrituras, encontrar alimento espiritual a través de sermones y elevar tu corazón con alabanzas.
 
 ---
 
@@ -33,7 +33,7 @@ BiblioWave es un proyecto web nacido del deseo de acercar la sabiduría de la Pa
 ## 📁 Estructura del Proyecto
 
 ```
-BiblioWave/
+BiblioSynth/
 ├── index.html              # Estructura principal del sitio
 ├── Styles/                 # Estilos y diseño visual
 │   └── main.css
@@ -52,20 +52,20 @@ BiblioWave/
 
 ### Método 1: Acceso Directo
 
-**[Visita BiblioWave](https://kernelphilosopher.github.io/BiblioWave/)**
+**[Visita BiblioSynth](https://kernelphilosopher.github.io/BiblioSynth/)**
 
 ### Método 2: Instalación Local
 
 1. **Clona el repositorio**
 
    ```bash
-   git clone https://github.com/KernelPhilosopher/BiblioWave.git
+   git clone https://github.com/KernelPhilosopher/BiblioSynth.git
    ```
 
 2. **Navega al directorio**
 
    ```bash
-   cd BiblioWave
+   cd BiblioSynth
    ```
 
 3. **Abre el archivo index.html**
@@ -76,7 +76,7 @@ BiblioWave/
 
 ## 🎯 Propósito del Proyecto
 
-BiblioWave fue creado con el propósito de:
+BiblioSynth fue creado con el propósito de:
 
 - Facilitar el acceso a contenido bíblico de manera moderna
 - Proporcionar una experiencia de usuario agradable y significativa
@@ -128,4 +128,4 @@ Si tienes preguntas, sugerencias o deseas colaborar, no dudes en contactar.
 
 > _"Lámpara es a mis pies tu palabra, y lumbrera a mi camino."_ - **Salmo 119:105**
 
-**¡Que BiblioWave sea de bendición en tu caminar espiritual!** 🌊✨
+**¡Que BiblioSynth sea de bendición en tu caminar espiritual!** 📖✨
