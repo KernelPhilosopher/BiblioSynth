@@ -561,7 +561,7 @@ body {
     scroll-padding-top: 60px; /* Reduce el padding superior para pantallas pequeñas */
   }
   .header__nav {
-    height: 60px; /* Reduce la altura del header en móviles */
+    height: 85.25px;
   }
   .header__menu {
     flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas */
